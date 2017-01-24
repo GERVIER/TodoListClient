@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -42,6 +43,9 @@ public class ListeTachesController implements Initializable {
 	@FXML
 	VBox vbox_lstTask;
 
+	@FXML
+	Button bt_addTask;
+
 	ArrayList<Tache> taskList = new ArrayList<Tache>();
 
 	/**
@@ -50,25 +54,27 @@ public class ListeTachesController implements Initializable {
 	 * @param url
 	 * @param rb
 	 */
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		
+		bt_addTask.setOnAction(ChangeToCreateMode);
+		
 		if (!networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
-
 		} else {
 			// Création de tache bidon pour les tests
-			taskList.add(new Tache("Manges des nouilles", "001", "Je suis la tache 1", "Urgent", "En cours", new Date("10/11/2016"),
-					new Date("10/01/2016"), "Robert" , "Karl" ));
-			taskList.add(new Tache("Manges des patates", "002", "Je suis la tache 2", "Moyenne", "En cours", new Date("12/23/2016"),
-					new Date("11/10/2016"), "Claude" , "Jacky" ));
-			taskList.add(new Tache("Sucette au coca", "003", "Je suis la tache 3", "Urgent", "Finit", new Date("01/21/2017"),
-					new Date("01/01/2017"), "Bebert" , "Momo"));
-			taskList.add(new Tache("I am groot", "004", "Je s'appelle Groot !", "Peu Urgent", "Finit", new Date("01/21/2017"),
-					new Date("01/01/2017"), "GROOT" , "GROOT"));
+			taskList.add(new Tache("Manges des nouilles", "001", "Je suis la tache 1", "Urgent", "En cours",
+					new Date("10/11/2016"), new Date("10/01/2016"), "Robert", "Karl"));
+			taskList.add(new Tache("Manges des patates", "002", "Je suis la tache 2", "Moyenne", "En cours",
+					new Date("12/23/2016"), new Date("11/10/2016"), "Claude", "Jacky"));
+			taskList.add(new Tache("Sucette au coca", "003", "Je suis la tache 3", "Urgent", "Finit",
+					new Date("01/21/2017"), new Date("01/01/2017"), "Bebert", "Momo"));
+			taskList.add(new Tache("I am groot", "004", "Je s'appelle Groot !", "Peu Urgent", "Finit",
+					new Date("01/21/2017"), new Date("01/01/2017"), "GROOT", "GROOT"));
 		}
 
-		taskList.clear();
 		try {
 			for (Tache t : taskList) {
 				AddTask(t);
@@ -107,7 +113,8 @@ public class ListeTachesController implements Initializable {
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
 		titre.setText(task.titre);
 
-		// Récupération et application de la date, du mec qui doit bosser/qui a creée et de la priorité
+		// Récupération et application de la date, du mec qui doit bosser/qui a
+		// creée et de la priorité
 		HBox center_center_top = (HBox) center_center.getTop();
 		Label date = (Label) center_center_top.getChildren().get(1);
 		Label realisateur = (Label) center_center_top.getChildren().get(4);
@@ -116,13 +123,14 @@ public class ListeTachesController implements Initializable {
 		date.setText(task.formatter.format(task.dateFin));
 		realisateur.setText(task.idRealisateur);
 		priority.setText(task.priorite);
-		
-		//Récupération et application du texte
+
+		// Récupération et application du texte
 		TextArea desc = (TextArea) center_center.getCenter();
 		desc.setText(task.texte);
-		
+
 		// Finition et ajout de la tache
-		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.formatter.format(task.dateFin), p);
+		TitledPane t = new TitledPane(
+				task.tacheID + " : " + task.titre + ". Pour le " + task.formatter.format(task.dateFin), p);
 		vbox_lstTask.getChildren().add(t);
 	}
 
@@ -139,22 +147,42 @@ public class ListeTachesController implements Initializable {
 	/**
 	 * 
 	 */
+	public EventHandler<ActionEvent> ChangeToCreateMode = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			System.out.println("Coucou");
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+			
+			TaskEditorHandler.setTacheToEdit(new Tache("", "", "", "Peu Urgent", "En cours", new Date(), new Date(), "", ""));
+			try {
+				switchToView("/fxml/TacheEdition.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	/**
+	 * 
+	 */
 	public EventHandler<ActionEvent> ChangeToEditMode = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
 			Stage stage;
 			Button b = (Button) event.getSource();
 			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
-			
+
 			int i = 0;
-			for(Node n : vbox_lstTask.getChildren()){
-				if(tp.equals(n))
+			for (Node n : vbox_lstTask.getChildren()) {
+				if (tp.equals(n))
 					break;
 				else
 					i++;
 			}
 			TaskEditorHandler.setTacheToEdit(taskList.get(i));
-			
+
 			stage = (Stage) b.getScene().getWindow();
 			try {
 				switchToView("/fxml/TacheEdition.fxml", stage);

@@ -47,6 +47,7 @@ public class EditTachesController implements Initializable {
 
 		lb_priority.getItems().removeAll(lb_priority.getItems());
 		lb_priority.getItems().addAll("Peu urgent", "Moyenne", "Urgent");
+		
 		setTask();
 
 		bt_retour.setOnAction(ReturnToList);
