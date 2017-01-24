@@ -53,7 +53,7 @@ public class ListeTachesController implements Initializable {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		if (networkHandler.isServerOnline()) {
+		if (!networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
 
 		} else {

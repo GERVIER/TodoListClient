@@ -9,7 +9,6 @@ public class Tache implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	public String tacheID;
 	public String titre;
 	public String texte;
@@ -17,7 +16,7 @@ public class Tache implements Serializable{
 	public String etat;
 	public String idCreateur;
 	public String idRealisateur;
-	public Date dateFin;
+	public Date dateFin; 
 	public Date dateCreation;
 	public SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 

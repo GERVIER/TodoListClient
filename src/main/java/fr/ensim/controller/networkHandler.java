@@ -10,9 +10,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Date;
+
+import model.Tache;
 
 /**
  *
@@ -27,10 +31,10 @@ public class networkHandler {
     private static OutputStream out = null;
     
     private static BufferedReader din = null;
-    private static ObjectInputStream ois = null;
     private static PrintStream pout = null;
     
-    
+    private static ObjectInputStream ois = null;
+    private static ObjectOutputStream oos = null;
 
     public static void init() {
         try {
@@ -40,7 +44,7 @@ public class networkHandler {
             din = new BufferedReader(new InputStreamReader(in));
             ois = new ObjectInputStream(aClient.getInputStream());
             
-            
+            oos = new ObjectOutputStream(aClient.getOutputStream());
             out = aClient.getOutputStream();
             pout = new PrintStream(out);
         } catch (IOException ex) {
@@ -91,5 +95,21 @@ public class networkHandler {
     }
     
     
+    public static void sendTaskToServ(Tache t, String typeOP){
+    	if(serverOnline){
+    		try {
+    			sendMsgToServ(typeOP);
+    			Tache test = new Tache(t.titre, t.tacheID, t.texte, t.priorite, t.etat, t.dateFin, t.dateCreation, t.idCreateur, t.idRealisateur);
+    			
+				oos.writeObject(test);
+				oos.flush();
+				System.out.println("\nTache envoyé: \n" + test);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    	}
+    }
     
 }

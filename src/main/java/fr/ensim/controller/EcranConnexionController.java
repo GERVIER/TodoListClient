@@ -38,7 +38,7 @@ public class EcranConnexionController implements Initializable {
 		bt_Connexion.setOnAction(TryConnexion);
 		System.out.println("Serveur online : " + networkHandler.isServerOnline());
 
-		if (networkHandler.isServerOnline()) {
+		if (!networkHandler.isServerOnline()) {
 			lb_ServerState.setVisible(true);
 			bt_Connexion.disableProperty().set(true);
 			bt_GoToInscri.disableProperty().set(true);
