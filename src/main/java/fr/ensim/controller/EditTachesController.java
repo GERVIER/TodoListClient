@@ -55,7 +55,8 @@ public class EditTachesController implements Initializable {
 		lb_priority.getSelectionModel().select(taskToEdit.priorite);
 		lb_date.setValue(LocalDate.parse(formatterForEdit.format(taskToEdit.dateFin)));
 		lb_desc.setText(taskToEdit.texte);
-		lb_titre.setText(taskToEdit.tacheID);
+		lb_titre.setText(taskToEdit.titre);
+		lb_who.setText(taskToEdit.idRealisateur);
 	}
 	
     /**

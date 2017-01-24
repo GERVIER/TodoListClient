@@ -34,7 +34,7 @@ public class networkHandler {
 
     public static void init() {
         try {
-            aClient = new Socket("localhost", 8540);
+            aClient = new Socket("localhost", 8350);
             serverOnline = true;
             in = aClient.getInputStream();
             din = new BufferedReader(new InputStreamReader(in));

@@ -15,13 +15,13 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         networkHandler.init();
-        
         stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
                 networkHandler.sendMsgToServ("END");
             }
         });
+        
         
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/ListeTaches.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/EcranInscription.fxml"));
@@ -30,7 +30,7 @@ public class MainApp extends Application {
         
         stage.setTitle("TODO List Client");
         stage.setMinWidth(1024);
-        stage.setMinHeight(768);
+        stage.setMinHeight(600);
         stage.setScene(scene);
         stage.show();
     }

@@ -6,8 +6,6 @@ public class TaskEditorHandler {
 
 	private static Tache tacheToEdit;
 
-	
-	
 	public static Tache getTacheToEdit() {
 		return tacheToEdit;
 	}

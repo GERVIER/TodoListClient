@@ -37,12 +37,13 @@ public class EcranConnexionController implements Initializable {
 		bt_GoToInscri.setOnAction(GoToInscri);
 		bt_Connexion.setOnAction(TryConnexion);
 		System.out.println("Serveur online : " + networkHandler.isServerOnline());
-		/*
-		 * if (!networkHandler.isServerOnline()) {
-		 * lb_ServerState.setVisible(true);
-		 * bt_Connexion.disableProperty().set(true);
-		 * bt_GoToInscri.disableProperty().set(true); }
-		 */
+
+		if (networkHandler.isServerOnline()) {
+			lb_ServerState.setVisible(true);
+			bt_Connexion.disableProperty().set(true);
+			bt_GoToInscri.disableProperty().set(true);
+		}
+
 	}
 
 	/**
@@ -70,8 +71,7 @@ public class EcranConnexionController implements Initializable {
 	public EventHandler<ActionEvent> TryConnexion = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			// networkHandler.sendMsgToServ("CONNEXION \n" + txt_mail.getText()
-			// + "\n" + txt_mdp.getText());
+			networkHandler.sendMsgToServ("CONNEXION \n" + txt_mail.getText() + "\n" + txt_mdp.getText());
 			try {
 				Stage stage;
 				Button b = (Button) event.getSource();

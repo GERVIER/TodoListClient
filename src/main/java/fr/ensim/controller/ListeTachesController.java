@@ -58,14 +58,14 @@ public class ListeTachesController implements Initializable {
 
 		} else {
 			// Création de tache bidon pour les tests
-			taskList.add(new Tache("001", "Je suis la tache 1", "Urgent", "En cours", new Date("10/11/2016"),
-					new Date("10/01/2016")));
-			taskList.add(new Tache("002", "Je suis la tache 2", "Moyenne", "En cours", new Date("12/23/2016"),
-					new Date("11/10/2016")));
-			taskList.add(new Tache("003", "Je suis la tache 3", "Urgent", "Finit", new Date("01/21/2017"),
-					new Date("01/01/2017")));
-			taskList.add(new Tache("004", "MANGE DES PATES !", "Peu Urgent", "Finit", new Date("01/21/2017"),
-					new Date("01/01/2017")));
+			taskList.add(new Tache("Manges des nouilles", "001", "Je suis la tache 1", "Urgent", "En cours", new Date("10/11/2016"),
+					new Date("10/01/2016"), "Robert" , "Karl" ));
+			taskList.add(new Tache("Manges des patates", "002", "Je suis la tache 2", "Moyenne", "En cours", new Date("12/23/2016"),
+					new Date("11/10/2016"), "Claude" , "Jacky" ));
+			taskList.add(new Tache("Sucette au coca", "003", "Je suis la tache 3", "Urgent", "Finit", new Date("01/21/2017"),
+					new Date("01/01/2017"), "Bebert" , "Momo"));
+			taskList.add(new Tache("I am groot", "004", "Je s'appelle Groot !", "Peu Urgent", "Finit", new Date("01/21/2017"),
+					new Date("01/01/2017"), "GROOT" , "GROOT"));
 		}
 
 		try {
@@ -104,7 +104,7 @@ public class ListeTachesController implements Initializable {
 
 		// Récupération et application du titre:
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
-		titre.setText(task.tacheID);
+		titre.setText(task.titre);
 
 		// Récupération et application de la date, du mec qui doit bosser/qui a creée et de la priorité
 		HBox center_center_top = (HBox) center_center.getTop();
@@ -113,7 +113,7 @@ public class ListeTachesController implements Initializable {
 		Label priority = (Label) center_center_top.getChildren().get(7);
 
 		date.setText(task.formatter.format(task.dateFin));
-		realisateur.setText("YA PAS LOL");
+		realisateur.setText(task.idRealisateur);
 		priority.setText(task.priorite);
 		
 		//Récupération et application du texte
@@ -121,7 +121,7 @@ public class ListeTachesController implements Initializable {
 		desc.setText(task.texte);
 		
 		// Finition et ajout de la tache
-		TitledPane t = new TitledPane(task.tacheID + " : " + task.formatter.format(task.dateFin), p);
+		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.formatter.format(task.dateFin), p);
 		vbox_lstTask.getChildren().add(t);
 	}
 
