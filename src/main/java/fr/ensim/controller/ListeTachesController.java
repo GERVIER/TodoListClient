@@ -68,6 +68,7 @@ public class ListeTachesController implements Initializable {
 					new Date("01/01/2017"), "GROOT" , "GROOT"));
 		}
 
+		taskList.clear();
 		try {
 			for (Tache t : taskList) {
 				AddTask(t);
