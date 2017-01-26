@@ -7,7 +7,6 @@ package fr.ensim.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -42,11 +41,9 @@ import model.User;
 public class ListeTachesController implements Initializable {
 
 	private static User user = null;
-	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@FXML
 	VBox vbox_lstTask;
-
 	@FXML
 	Button bt_addTask;
 
@@ -70,6 +67,11 @@ public class ListeTachesController implements Initializable {
 				taskList = user.lstTachesCrea;
 				System.out.println(taskList.size());
 			} else {
+				networkHandler.sendMsgToServ("ACTUALISATION\n");
+				networkHandler.sendMsgToServ(""+user.userID+"\n");
+				System.out.println("Reponse: " + networkHandler.rcvMsgFromServ());
+				user = networkHandler.rvcUserFromServ();
+				taskList = user.lstTachesCrea;
 				/*
 				 * 
 				 * ACTUALISATION A FAIRE
@@ -96,7 +98,6 @@ public class ListeTachesController implements Initializable {
 	 * @throws IOException
 	 */
 	public void AddTask(Tache task) throws IOException {
-		System.out.println("Creation tache");
 		BorderPane p = FXMLLoader.load(getClass().getResource("/fxml/Tache.fxml"));
 		BorderPane top = (BorderPane) p.getTop();
 		BorderPane center = (BorderPane) p.getCenter();
@@ -104,7 +105,6 @@ public class ListeTachesController implements Initializable {
 
 		// Récupération du HBox avec les deux buttons
 		HBox top_left = (HBox) top.getRight();
-		System.out.println("Récupération du HBox avec les deux buttons");
 		// Récupération du button edit
 		Button edit = (Button) top_left.getChildren().get(0);
 		edit.setOnAction(ChangeToEditMode);
@@ -117,7 +117,6 @@ public class ListeTachesController implements Initializable {
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
 		titre.setText(task.titre);
 
-		System.out.println("Récupération et application du titre");
 		// Récupération et application de la date, du mec qui doit bosser/qui a
 		// creée et de la priorité
 		HBox center_center_top = (HBox) center_center.getTop();
@@ -125,7 +124,6 @@ public class ListeTachesController implements Initializable {
 		Label realisateur = (Label) center_center_top.getChildren().get(4);
 		Label priority = (Label) center_center_top.getChildren().get(7);
 
-		System.out.println("Récupération et application de la date");
 
 		date.setText(task.dateFin.toString());
 		realisateur.setText(task.idRealisateur);
@@ -135,14 +133,12 @@ public class ListeTachesController implements Initializable {
 		TextArea desc = (TextArea) center_center.getCenter();
 		desc.setText(task.texte);
 
-		System.out.println("QUASI FINIT LEL");
 		// Finition et ajout de la tache
 		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(),
 				p);
 		t.getStyleClass().add("titreTache");
 		vbox_lstTask.getChildren().add(t);
-		
-		System.out.println("FINIT LEL");
+
 	}
 
 	/**

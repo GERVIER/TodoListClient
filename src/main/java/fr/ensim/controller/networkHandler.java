@@ -36,12 +36,12 @@ public class networkHandler {
 		try {
 			aClient = new Socket("localhost", 1500);
 			serverOnline = true;
-			
-			//Entrée
+
+			// Entrée
 			din = new BufferedReader(new InputStreamReader(aClient.getInputStream()));
 			ois = new ObjectInputStream(aClient.getInputStream());
-			
-			//Sortie
+
+			// Sortie
 			dout = new DataOutputStream(aClient.getOutputStream());
 			oos = new ObjectOutputStream(aClient.getOutputStream());
 		} catch (IOException ex) {
@@ -77,11 +77,9 @@ public class networkHandler {
 	public static void sendMsgToServ(String msg) {
 		if (serverOnline) {
 			System.out.println("Message envoyé au serveur: " + msg);
-			//pout.println(msg);
 			try {
 				dout.writeBytes(msg);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -115,33 +113,30 @@ public class networkHandler {
 				oos.flush();
 				System.out.println("\nTache envoyé: \n" + test);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static void sendUserToServ(User u){
-		if(serverOnline){
-			try {
-				User user = new User(u.userID, u.nom, u.prenom, u.mail, u.mdp);
-				oos.writeObject(user);
-				oos.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public static User rvcUserFromServ(){
+	public static void sendUserToServ(User u) {
+		if (serverOnline) {
+			try {
+				User user = new User(u.userID, u.nom, u.prenom, u.mail, u.mdp);
+				oos.writeObject(user);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static User rvcUserFromServ() {
 		User u = null;
-		if(serverOnline){
+		if (serverOnline) {
 			try {
 				u = (User) ois.readObject();
 				System.out.println(u);
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
