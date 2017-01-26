@@ -3,8 +3,6 @@ package fr.ensim.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -61,7 +59,7 @@ public class EditTachesController implements Initializable {
 		taskToEdit = TaskEditorHandler.getTacheToEdit();
 
 		lb_priority.getSelectionModel().select(taskToEdit.priorite);
-		lb_date.setValue(LocalDate.parse(formatterForEdit.format(taskToEdit.dateFin)));
+		lb_date.setValue(taskToEdit.dateFin);
 		lb_desc.setText(taskToEdit.texte);
 		lb_titre.setText(taskToEdit.titre);
 		lb_who.setText(taskToEdit.idRealisateur);
@@ -91,11 +89,9 @@ public class EditTachesController implements Initializable {
 	public EventHandler<ActionEvent> ValidTask = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			@SuppressWarnings("deprecation")
-			Date newDate = new Date(lb_date.getValue().getYear()-1900, lb_date.getValue().getMonth().getValue()-1, lb_date.getValue().getDayOfMonth());
-			
+
 			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(), lb_priority.getValue(),
-					"En cours", newDate, taskToEdit.dateCreation, taskToEdit.idCreateur, lb_who.getText());
+					"En cours", lb_date.getValue(), taskToEdit.dateCreation, taskToEdit.idCreateur, lb_who.getText());
 			
 			networkHandler.sendTaskToServ(taskEdited, "MAJ");
 		}

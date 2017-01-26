@@ -1,33 +1,28 @@
 package model;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Tache implements Serializable{
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	public String tacheID;
 	public String titre;
+	public String tacheID;
 	public String texte;
 	public String priorite;
 	public String etat;
 	public String idCreateur;
 	public String idRealisateur;
-	public Date dateFin; 
-	public Date dateCreation;
-	public SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
+	public LocalDate dateFin;
+	public LocalDate dateCreation;
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public Tache(){}
 	
-	public Tache(String titre, String tacheID, String texte, String priorite, String etat, Date dateFin, Date dateCreation, String idCreateur, String idRealisateur){
+	public Tache(String titre, String tacheID, String texte, String priorite, String etat, LocalDate dateFin, LocalDate dateCreation, String idCreateur, String idRealisateur){
 		this.titre = titre;
 		this.tacheID = tacheID;
 		this.texte = texte;
@@ -40,7 +35,8 @@ public class Tache implements Serializable{
 	}
 	
 	public String toString(){
-		String str = "Txt : " + this.texte + "\n"
+		String str = "ID : " + this.tacheID
+				+ "Txt : " + this.texte + "\n"
 				+ " Priorite : " + this.priorite + "\n"
 				+ " Etat : " + this.etat + "\n"
 				+ " Date Fin : " + this.dateFin + "\n"

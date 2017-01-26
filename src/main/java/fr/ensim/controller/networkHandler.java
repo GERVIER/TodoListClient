@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import model.Tache;
+import model.User;
 
 /**
  *
@@ -119,15 +120,31 @@ public class networkHandler {
 			}
 		}
 	}
-
-	public static void rvcUserFromServ(){
+	
+	public static void sendUserToServ(User u){
 		if(serverOnline){
 			try {
-				System.out.println(ois.readObject());
+				User user = new User(u.userID, u.nom, u.prenom, u.mail, u.mdp);
+				oos.writeObject(user);
+				oos.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static User rvcUserFromServ(){
+		User u = null;
+		if(serverOnline){
+			try {
+				u = (User) ois.readObject();
+				System.out.println(u);
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		return u;
 	}
 }

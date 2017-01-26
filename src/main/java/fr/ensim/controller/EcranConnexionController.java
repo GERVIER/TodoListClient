@@ -1,5 +1,6 @@
 package fr.ensim.controller;
 
+import java.awt.SecondaryLoop;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,12 +37,17 @@ public class EcranConnexionController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_GoToInscri.setOnAction(GoToInscri);
 		bt_Connexion.setOnAction(TryConnexion);
-		txt_mail.setText("johndo@hotmail.fr");
+		txt_mail.setText("oliver@gmail.com");
 		txt_mdp.setText("123");
 		System.out.println("Serveur online : " + networkHandler.isServerOnline());
 
 		if (!networkHandler.isServerOnline()) {
 			lb_ServerState.setVisible(true);
+		} else {
+			networkHandler.sendMsgToServ("INIT\n");
+
+			String msg = networkHandler.rcvMsgFromServ();
+			System.out.println("Réponse: " + msg);
 		}
 	}
 
@@ -76,17 +82,17 @@ public class EcranConnexionController implements Initializable {
 				networkHandler.sendMsgToServ(txt_mail.getText() + "\n");
 				Thread.sleep(3);
 				networkHandler.sendMsgToServ("123" + "\n");
-				
+
 				String msg = networkHandler.rcvMsgFromServ();
 				System.out.println("Réponse: " + msg);
-				
-				if(msg.equals("OK") || msg.equals("DEMOMODE")){
+
+				if (msg.equals("OK") || msg.equals("DEMOMODE")) {
 					Stage stage;
 					Button b = (Button) event.getSource();
 					stage = (Stage) b.getScene().getWindow();
-					
+
 					switchToView("/fxml/ListeTaches.fxml", stage);
-				}else{
+				} else {
 					lb_ServerState.setVisible(true);
 					lb_ServerState.setText("Login ou mot de passe incorrect");
 				}

@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  * FXML Controller class
@@ -51,7 +52,6 @@ public class EcranInscriptionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    
         Bt_valideInscri.setOnAction(Try_Inscription);
         bt_return.setOnAction(GoToCo);
     }
@@ -62,7 +62,9 @@ public class EcranInscriptionController implements Initializable {
     public EventHandler<ActionEvent> Try_Inscription = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            networkHandler.sendMsgToServ("INSCRIPTION\n" + txt_Mail.getText() + "\n" + txt_name.getText());
+        	User u = new User("", txt_nickName.getText(), txt_name.getText(), txt_Mail.getText(),  txt_pass.getText());
+            networkHandler.sendMsgToServ("INSCRIPTION\n");
+            networkHandler.sendUserToServ(u);
         }
     };
 

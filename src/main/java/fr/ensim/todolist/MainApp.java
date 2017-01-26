@@ -18,7 +18,7 @@ public class MainApp extends Application {
         stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                //networkHandler.sendMsgToServ("END");
+                networkHandler.sendMsgToServ("END");
             }
         });
         

@@ -7,8 +7,9 @@ package fr.ensim.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Tache;
+import model.User;
 
 /**
  * FXML Controller class
@@ -39,6 +41,9 @@ import model.Tache;
  */
 public class ListeTachesController implements Initializable {
 
+	private static User user = null;
+	private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	
 	@FXML
 	VBox vbox_lstTask;
 
@@ -53,25 +58,23 @@ public class ListeTachesController implements Initializable {
 	 * @param url
 	 * @param rb
 	 */
-	
-	@SuppressWarnings("deprecation")
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_addTask.setOnAction(ChangeToCreateMode);
-		
+
 		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
-			networkHandler.rvcUserFromServ();
-		} else {
-			// Création de tache bidon pour les tests
-			taskList.add(new Tache("Manges des nouilles", "001", "Je suis la tache 1", "Urgent", "En cours",
-					new Date("10/11/2016"), new Date("10/01/2016"), "Robert", "Karl"));
-			taskList.add(new Tache("Manges des patates", "002", "Je suis la tache 2", "Moyenne", "En cours",
-					new Date("12/23/2016"), new Date("11/10/2016"), "Claude", "Jacky"));
-			taskList.add(new Tache("Sucette au coca", "003", "Je suis la tache 3", "Urgent", "Finit",
-					new Date("01/21/2017"), new Date("01/01/2017"), "Bebert", "Momo"));
-			taskList.add(new Tache("I am groot", "004", "Je s'appelle Groot !", "Peu Urgent", "Finit",
-					new Date("01/21/2017"), new Date("01/01/2017"), "GROOT", "GROOT"));
+			if (user == null) {
+				user = networkHandler.rvcUserFromServ();
+				taskList = user.lstTachesCrea;
+				System.out.println(taskList.size());
+			} else {
+				/*
+				 * 
+				 * ACTUALISATION A FAIRE
+				 */
+			}
 		}
 
 		try {
@@ -80,6 +83,7 @@ public class ListeTachesController implements Initializable {
 			}
 		} catch (IOException ex) {
 			Logger.getLogger(ListeTachesController.class.getName()).log(Level.SEVERE, null, ex);
+			ex.printStackTrace();
 		}
 
 	}
@@ -92,6 +96,7 @@ public class ListeTachesController implements Initializable {
 	 * @throws IOException
 	 */
 	public void AddTask(Tache task) throws IOException {
+		System.out.println("Creation tache");
 		BorderPane p = FXMLLoader.load(getClass().getResource("/fxml/Tache.fxml"));
 		BorderPane top = (BorderPane) p.getTop();
 		BorderPane center = (BorderPane) p.getCenter();
@@ -99,7 +104,7 @@ public class ListeTachesController implements Initializable {
 
 		// Récupération du HBox avec les deux buttons
 		HBox top_left = (HBox) top.getRight();
-
+		System.out.println("Récupération du HBox avec les deux buttons");
 		// Récupération du button edit
 		Button edit = (Button) top_left.getChildren().get(0);
 		edit.setOnAction(ChangeToEditMode);
@@ -112,6 +117,7 @@ public class ListeTachesController implements Initializable {
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
 		titre.setText(task.titre);
 
+		System.out.println("Récupération et application du titre");
 		// Récupération et application de la date, du mec qui doit bosser/qui a
 		// creée et de la priorité
 		HBox center_center_top = (HBox) center_center.getTop();
@@ -119,7 +125,9 @@ public class ListeTachesController implements Initializable {
 		Label realisateur = (Label) center_center_top.getChildren().get(4);
 		Label priority = (Label) center_center_top.getChildren().get(7);
 
-		date.setText(task.formatter.format(task.dateFin));
+		System.out.println("Récupération et application de la date");
+
+		date.setText(task.dateFin.toString());
 		realisateur.setText(task.idRealisateur);
 		priority.setText(task.priorite);
 
@@ -127,11 +135,14 @@ public class ListeTachesController implements Initializable {
 		TextArea desc = (TextArea) center_center.getCenter();
 		desc.setText(task.texte);
 
+		System.out.println("QUASI FINIT LEL");
 		// Finition et ajout de la tache
-		TitledPane t = new TitledPane(
-				task.tacheID + " : " + task.titre + ". Pour le " + task.formatter.format(task.dateFin), p);
+		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(),
+				p);
 		t.getStyleClass().add("titreTache");
 		vbox_lstTask.getChildren().add(t);
+		
+		System.out.println("FINIT LEL");
 	}
 
 	/**
@@ -153,8 +164,9 @@ public class ListeTachesController implements Initializable {
 			Stage stage;
 			Button b = (Button) event.getSource();
 			stage = (Stage) b.getScene().getWindow();
-			
-			TaskEditorHandler.setTacheToEdit(new Tache("", "", "", "Peu Urgent", "En cours", new Date(), new Date(), "", ""));
+
+			TaskEditorHandler.setTacheToEdit(
+					new Tache("", "", "", "Peu Urgent", "En cours", LocalDate.now(), LocalDate.now(), "", ""));
 			try {
 				switchToView("/fxml/TacheEdition.fxml", stage);
 			} catch (IOException e) {
@@ -180,8 +192,8 @@ public class ListeTachesController implements Initializable {
 				else
 					i++;
 			}
-			
-			TaskEditorHandler.setTacheToEdit(taskList.get(i-1));
+
+			TaskEditorHandler.setTacheToEdit(taskList.get(i - 1));
 
 			stage = (Stage) b.getScene().getWindow();
 			try {
