@@ -22,7 +22,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -58,11 +57,11 @@ public class ListeTachesController implements Initializable {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
 		bt_addTask.setOnAction(ChangeToCreateMode);
 		
-		if (!networkHandler.isServerOnline()) {
+		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
+			networkHandler.rvcUserFromServ();
 		} else {
 			// Création de tache bidon pour les tests
 			taskList.add(new Tache("Manges des nouilles", "001", "Je suis la tache 1", "Urgent", "En cours",
@@ -131,6 +130,7 @@ public class ListeTachesController implements Initializable {
 		// Finition et ajout de la tache
 		TitledPane t = new TitledPane(
 				task.tacheID + " : " + task.titre + ". Pour le " + task.formatter.format(task.dateFin), p);
+		t.getStyleClass().add("titreTache");
 		vbox_lstTask.getChildren().add(t);
 	}
 
@@ -150,7 +150,6 @@ public class ListeTachesController implements Initializable {
 	public EventHandler<ActionEvent> ChangeToCreateMode = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			System.out.println("Coucou");
 			Stage stage;
 			Button b = (Button) event.getSource();
 			stage = (Stage) b.getScene().getWindow();
@@ -181,7 +180,8 @@ public class ListeTachesController implements Initializable {
 				else
 					i++;
 			}
-			TaskEditorHandler.setTacheToEdit(taskList.get(i));
+			
+			TaskEditorHandler.setTacheToEdit(taskList.get(i-1));
 
 			stage = (Stage) b.getScene().getWindow();
 			try {

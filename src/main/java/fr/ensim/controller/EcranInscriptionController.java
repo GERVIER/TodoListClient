@@ -51,6 +51,7 @@ public class EcranInscriptionController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    
         Bt_valideInscri.setOnAction(Try_Inscription);
         bt_return.setOnAction(GoToCo);
     }

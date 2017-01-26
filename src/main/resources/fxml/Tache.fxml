@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="395.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" minWidth="395.0" styleClass="fond" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
@@ -23,14 +24,14 @@
                <top>
                   <HBox alignment="CENTER" maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label text="Date: " />
-                        <Label text="Label" />
+                        <Label styleClass="texte" text="Date: " textFill="#333333" />
+                        <Label styleClass="texte" text="Label" textFill="#333333" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label text="Réalisateur: " />
-                        <Label text="Label" />
+                        <Label styleClass="texte" text="Réalisateur: " textFill="#333333" />
+                        <Label styleClass="texte" text="Label" textFill="#333333" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label text="Priorité: " />
-                        <Label text="Label" />
+                        <Label styleClass="texte" text="Priorité: " textFill="#333333" />
+                        <Label styleClass="texte" text="Label" textFill="#333333" />
                      </children>
                   </HBox>
                </top>
@@ -47,11 +48,19 @@
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
+                     <styleClass>
+                        <String fx:value="boutonBase" />
+                        <String fx:value="BTBleu" />
+                     </styleClass>
                   </Button>
                   <Button mnemonicParsing="false" text="Supprimer">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin>
+                     <styleClass>
+                        <String fx:value="boutonBase" />
+                        <String fx:value="BTrouge" />
+                     </styleClass>
                   </Button>
                </children>
                <padding>
@@ -68,7 +77,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="TITRE DE LA TACHE BORDEL" underline="true">
+                  <Label styleClass="texte" text="TITRE DE LA TACHE BORDEL" textFill="#333333" underline="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>

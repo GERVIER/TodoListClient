@@ -18,10 +18,9 @@ public class MainApp extends Application {
         stage.onCloseRequestProperty().set(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                networkHandler.sendMsgToServ("END");
+                //networkHandler.sendMsgToServ("END");
             }
         });
-        
         
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/ListeTaches.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/EcranInscription.fxml"));
@@ -35,7 +34,6 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be

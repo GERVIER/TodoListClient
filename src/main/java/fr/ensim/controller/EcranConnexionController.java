@@ -36,14 +36,13 @@ public class EcranConnexionController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_GoToInscri.setOnAction(GoToInscri);
 		bt_Connexion.setOnAction(TryConnexion);
+		txt_mail.setText("johndo@hotmail.fr");
+		txt_mdp.setText("123");
 		System.out.println("Serveur online : " + networkHandler.isServerOnline());
 
 		if (!networkHandler.isServerOnline()) {
 			lb_ServerState.setVisible(true);
-			bt_Connexion.disableProperty().set(true);
-			bt_GoToInscri.disableProperty().set(true);
 		}
-
 	}
 
 	/**
@@ -71,15 +70,31 @@ public class EcranConnexionController implements Initializable {
 	public EventHandler<ActionEvent> TryConnexion = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			networkHandler.sendMsgToServ("CONNEXION \n" + txt_mail.getText() + "\n" + txt_mdp.getText());
 			try {
-				Stage stage;
-				Button b = (Button) event.getSource();
-				stage = (Stage) b.getScene().getWindow();
+				networkHandler.sendMsgToServ("CONNEXION\n");
+				Thread.sleep(3);
+				networkHandler.sendMsgToServ(txt_mail.getText() + "\n");
+				Thread.sleep(3);
+				networkHandler.sendMsgToServ("123" + "\n");
+				
+				String msg = networkHandler.rcvMsgFromServ();
+				System.out.println("Réponse: " + msg);
+				
+				if(msg.equals("OK") || msg.equals("DEMOMODE")){
+					Stage stage;
+					Button b = (Button) event.getSource();
+					stage = (Stage) b.getScene().getWindow();
+					
+					switchToView("/fxml/ListeTaches.fxml", stage);
+				}else{
+					lb_ServerState.setVisible(true);
+					lb_ServerState.setText("Login ou mot de passe incorrect");
+				}
 
-				switchToView("/fxml/ListeTaches.fxml", stage);
 			} catch (IOException ex) {
 				ex.getMessage();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	};

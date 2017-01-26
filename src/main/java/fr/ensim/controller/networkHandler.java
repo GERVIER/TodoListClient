@@ -6,15 +6,12 @@
 package fr.ensim.controller;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Date;
 
 import model.Tache;
 
@@ -27,26 +24,25 @@ public class networkHandler {
 	private static Socket aClient = null;
 
 	private static boolean serverOnline = false;
-	private static InputStream in = null;
-	private static OutputStream out = null;
+	private static DataOutputStream dout = null;
 
 	private static BufferedReader din = null;
-	private static PrintStream pout = null;
 
 	private static ObjectInputStream ois = null;
 	private static ObjectOutputStream oos = null;
 
 	public static void init() {
 		try {
-			aClient = new Socket("localhost", 8350);
+			aClient = new Socket("localhost", 1500);
 			serverOnline = true;
-			in = aClient.getInputStream();
-			din = new BufferedReader(new InputStreamReader(in));
+			
+			//Entrée
+			din = new BufferedReader(new InputStreamReader(aClient.getInputStream()));
 			ois = new ObjectInputStream(aClient.getInputStream());
-
+			
+			//Sortie
+			dout = new DataOutputStream(aClient.getOutputStream());
 			oos = new ObjectOutputStream(aClient.getOutputStream());
-			out = aClient.getOutputStream();
-			pout = new PrintStream(out);
 		} catch (IOException ex) {
 			ex.getMessage();
 			serverOnline = false;
@@ -80,7 +76,13 @@ public class networkHandler {
 	public static void sendMsgToServ(String msg) {
 		if (serverOnline) {
 			System.out.println("Message envoyé au serveur: " + msg);
-			pout.println(msg);
+			//pout.println(msg);
+			try {
+				dout.writeBytes(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -90,15 +92,18 @@ public class networkHandler {
 	 * @return le message recu
 	 */
 	public static String rcvMsgFromServ() {
-		try {
-			return din.readLine();
-		} catch (IOException ex) {
-			System.out.println("ERROR 42: I'M A UNITATO !");
+		if (serverOnline) {
+			try {
+				return din.readLine();
+			} catch (IOException ex) {
+				System.out.println("ERROR 42: I'M A UNITATO !");
+			}
+			return "ERROR 42: I'M A UNITATO !";
 		}
-		return "ERROR 42: I'M A UNITATO !";
+		return "DEMOMODE";
 	}
 
-	public static void sendTaskToServ(Tache t, String typeOP){
+	public static void sendTaskToServ(Tache t, String typeOP) {
 		if (serverOnline) {
 			try {
 				sendMsgToServ(typeOP);
@@ -112,8 +117,17 @@ public class networkHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 	}
 
+	public static void rvcUserFromServ(){
+		if(serverOnline){
+			try {
+				System.out.println(ois.readObject());
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

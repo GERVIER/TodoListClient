@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EcranInscriptionController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" styleClass="fond" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EcranInscriptionController">
    <center>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -20,27 +21,35 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nom:  " />
-            <Label text="Mot de passe: " GridPane.rowIndex="3" />
-            <Label text="Confirmer le mot de passe: " GridPane.rowIndex="4" />
-            <Label text="Prénom:  " GridPane.rowIndex="1" />
-            <Label text="Email: " GridPane.rowIndex="2" />
+            <Label styleClass="texte" text="Nom:  " textFill="#333333" />
+            <Label styleClass="texte" text="Mot de passe: " textFill="#333333" GridPane.rowIndex="3" />
+            <Label styleClass="texte" text="Confirmer le mot de passe: " textFill="#333333" GridPane.rowIndex="4" />
+            <Label styleClass="texte" text="Prénom:  " textFill="#333333" GridPane.rowIndex="1" />
+            <Label styleClass="texte" text="Email: " textFill="#333333" GridPane.rowIndex="2" />
             <TextField fx:id="txt_nickName" GridPane.columnIndex="1" />
             <TextField fx:id="txt_name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txt_Mail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <PasswordField fx:id="txt_pass" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <PasswordField fx:id="txt_passConf" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="Bt_valideInscri" mnemonicParsing="false" text="Valider" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <Button fx:id="bt_return" mnemonicParsing="false" text="Retour" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Button fx:id="Bt_valideInscri" mnemonicParsing="false" text="Valider" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="boutonBase" />
+                  <String fx:value="BTvert" />
+               </styleClass></Button>
+            <Button fx:id="bt_return" mnemonicParsing="false" text="Retour" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+               <styleClass>
+                  <String fx:value="boutonBase" />
+                  <String fx:value="BTBleu" />
+               </styleClass></Button>
          </children>
          <padding>
             <Insets top="-100.0" />

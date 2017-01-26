@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EditTachesController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" styleClass="fond" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EditTachesController">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
@@ -36,13 +37,13 @@
                      <top>
                         <HBox alignment="CENTER" maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Label text="Date: " />
+                              <Label styleClass="texte" text="Date: " />
                               <DatePicker fx:id="lb_date" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Label text="Réalisateur: " />
+                              <Label styleClass="texte" text="Réalisateur: " />
                               <TextField fx:id="lb_who" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Label text="Priorité: " />
+                              <Label styleClass="texte" text="Priorité: " />
                               <ComboBox fx:id="lb_priority" prefWidth="150.0" />
                            </children>
                         </HBox>
@@ -73,8 +74,16 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="bt_valid" mnemonicParsing="false" text="Valider" />
-            <Button fx:id="bt_retour" mnemonicParsing="false" text="Retour" />
+            <Button fx:id="bt_valid" mnemonicParsing="false" text="Valider">
+               <styleClass>
+                  <String fx:value="boutonBase" />
+                  <String fx:value="BTvert" />
+               </styleClass></Button>
+            <Button fx:id="bt_retour" mnemonicParsing="false" text="Retour">
+               <styleClass>
+                  <String fx:value="boutonBase" />
+                  <String fx:value="BTBleu" />
+               </styleClass></Button>
          </children>
       </HBox>
    </bottom>
@@ -86,7 +95,7 @@
                   <Image url="@../img/ic_edit.png" />
                </image>
             </ImageView>
-            <Label text="Edition" underline="true">
+            <Label styleClass="texte" text="Edition" underline="true">
                <font>
                   <Font name="Cambria Bold Italic" size="24.0" />
                </font>

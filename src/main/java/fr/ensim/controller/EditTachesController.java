@@ -54,6 +54,9 @@ public class EditTachesController implements Initializable {
 		bt_valid.setOnAction(ValidTask);
 	}
 
+	/**
+	 * 
+	 */
 	private void setTask() {
 		taskToEdit = TaskEditorHandler.getTacheToEdit();
 
@@ -82,9 +85,13 @@ public class EditTachesController implements Initializable {
 		}
 	};
 
+	/**
+	 * 
+	 */
 	public EventHandler<ActionEvent> ValidTask = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
+			@SuppressWarnings("deprecation")
 			Date newDate = new Date(lb_date.getValue().getYear()-1900, lb_date.getValue().getMonth().getValue()-1, lb_date.getValue().getDayOfMonth());
 			
 			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(), lb_priority.getValue(),

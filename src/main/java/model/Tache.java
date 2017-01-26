@@ -9,6 +9,10 @@ public class Tache implements Serializable{
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	public String tacheID;
 	public String titre;
 	public String texte;
