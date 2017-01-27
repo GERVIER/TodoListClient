@@ -22,6 +22,7 @@ import model.Tache;
 
 public class EditTachesController implements Initializable {
 	private Tache taskToEdit;
+	private Tache oldtask;
 	public SimpleDateFormat formatterForEdit = new SimpleDateFormat("yyyy-MM-dd");
 
 	@FXML
@@ -45,7 +46,7 @@ public class EditTachesController implements Initializable {
 
 		lb_priority.getItems().removeAll(lb_priority.getItems());
 		lb_priority.getItems().addAll("Peu urgent", "Moyenne", "Urgent");
-		
+
 		setTask();
 
 		bt_retour.setOnAction(ReturnToList);
@@ -57,7 +58,10 @@ public class EditTachesController implements Initializable {
 	 */
 	private void setTask() {
 		taskToEdit = TaskEditorHandler.getTacheToEdit();
-
+		oldtask = new Tache(taskToEdit.titre, taskToEdit.tacheID, taskToEdit.texte, taskToEdit.priorite,
+				taskToEdit.etat, taskToEdit.dateFin, taskToEdit.dateCreation, taskToEdit.idCreateur,
+				taskToEdit.idRealisateur);
+		
 		lb_priority.getSelectionModel().select(taskToEdit.priorite);
 		lb_date.setValue(taskToEdit.dateFin);
 		lb_desc.setText(taskToEdit.texte);
@@ -71,6 +75,9 @@ public class EditTachesController implements Initializable {
 	public EventHandler<ActionEvent> ReturnToList = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
+
+			networkHandler.sendTaskToServ(oldtask, "VALIDATION\n");
+			
 			Stage stage;
 			Button b = (Button) event.getSource();
 			stage = (Stage) b.getScene().getWindow();
@@ -90,10 +97,11 @@ public class EditTachesController implements Initializable {
 		@Override
 		public void handle(ActionEvent event) {
 
-			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(), lb_priority.getValue(),
-					"En cours", lb_date.getValue(), taskToEdit.dateCreation, taskToEdit.idCreateur, lb_who.getText());
-			
-			networkHandler.sendTaskToServ(taskEdited, "MAJ");
+			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(),
+					lb_priority.getValue(), "En cours", lb_date.getValue(), taskToEdit.dateCreation,
+					taskToEdit.idCreateur, lb_who.getText());
+
+			networkHandler.sendTaskToServ(taskEdited, "VALIDATION\n");
 		}
 	};
 

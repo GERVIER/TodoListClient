@@ -49,6 +49,15 @@ public class networkHandler {
 			serverOnline = false;
 		}
 	}
+	
+	public static void test(){
+		try {
+			ois = new ObjectInputStream(aClient.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Retourne le socket client pour communiquer avec le serveur

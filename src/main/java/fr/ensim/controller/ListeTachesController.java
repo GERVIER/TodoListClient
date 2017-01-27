@@ -10,8 +10,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -63,19 +61,32 @@ public class ListeTachesController implements Initializable {
 		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
 			if (user == null) {
+				networkHandler.test();
 				user = networkHandler.rvcUserFromServ();
-				taskList = user.lstTachesCrea;
-				System.out.println(taskList.size());
+				
+				if(user == null){
+					taskList = user.lstTachesCrea;
+					System.out.println(taskList.size());
+					Stage stage;
+					stage = (Stage) bt_addTask.getScene().getWindow();
+					try {
+						switchToView("/fxml/EcranConnexion.fxml", stage);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else{
+					taskList = user.lstTachesCrea;
+				}
+				
+				
 			} else {
 				networkHandler.sendMsgToServ("ACTUALISATION\n");
 				networkHandler.sendMsgToServ(""+user.userID+"\n");
-				System.out.println("Reponse: " + networkHandler.rcvMsgFromServ());
+				
+				networkHandler.test();
 				user = networkHandler.rvcUserFromServ();
 				taskList = user.lstTachesCrea;
-				/*
-				 * 
-				 * ACTUALISATION A FAIRE
-				 */
 			}
 		}
 
@@ -84,7 +95,6 @@ public class ListeTachesController implements Initializable {
 				AddTask(t);
 			}
 		} catch (IOException ex) {
-			Logger.getLogger(ListeTachesController.class.getName()).log(Level.SEVERE, null, ex);
 			ex.printStackTrace();
 		}
 
@@ -162,7 +172,7 @@ public class ListeTachesController implements Initializable {
 			stage = (Stage) b.getScene().getWindow();
 
 			TaskEditorHandler.setTacheToEdit(
-					new Tache("", "", "", "Peu Urgent", "En cours", LocalDate.now(), LocalDate.now(), "", ""));
+					new Tache("", "", "", "Peu Urgent", "En cours", LocalDate.now(), LocalDate.now(), user.userID, ""));
 			try {
 				switchToView("/fxml/TacheEdition.fxml", stage);
 			} catch (IOException e) {

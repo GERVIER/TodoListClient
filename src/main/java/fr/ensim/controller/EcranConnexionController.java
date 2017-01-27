@@ -83,19 +83,14 @@ public class EcranConnexionController implements Initializable {
 				Thread.sleep(3);
 				networkHandler.sendMsgToServ("123" + "\n");
 
-				String msg = networkHandler.rcvMsgFromServ();
-				System.out.println("Réponse: " + msg);
+				Stage stage;
+				Button b = (Button) event.getSource();
+				stage = (Stage) b.getScene().getWindow();
 
-				if (msg.equals("OK") || msg.equals("DEMOMODE")) {
-					Stage stage;
-					Button b = (Button) event.getSource();
-					stage = (Stage) b.getScene().getWindow();
+				switchToView("/fxml/ListeTaches.fxml", stage);
 
-					switchToView("/fxml/ListeTaches.fxml", stage);
-				} else {
-					lb_ServerState.setVisible(true);
-					lb_ServerState.setText("Login ou mot de passe incorrect");
-				}
+				// lb_ServerState.setVisible(true);
+				// lb_ServerState.setText("Login ou mot de passe incorrect");
 
 			} catch (IOException ex) {
 				ex.getMessage();
