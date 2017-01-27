@@ -74,6 +74,9 @@ public class EditTachesController implements Initializable {
 	 */
 	public EventHandler<ActionEvent> ReturnToList = new EventHandler<ActionEvent>() {
 		@Override
+		/**
+		 * A REVOIR
+		 */
 		public void handle(ActionEvent event) {
 
 			networkHandler.sendTaskToServ(oldtask, "VALIDATION\n");
@@ -102,6 +105,16 @@ public class EditTachesController implements Initializable {
 					taskToEdit.idCreateur, lb_who.getText());
 
 			networkHandler.sendTaskToServ(taskEdited, "VALIDATION\n");
+			
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+
+			try {
+				switchToView("/fxml/ListeTaches.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 
