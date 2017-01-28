@@ -38,10 +38,10 @@
                         <HBox alignment="CENTER" maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
                               <Label styleClass="texte" text="Date: " />
-                              <DatePicker fx:id="lb_date" editable="false" />
+                              <DatePicker fx:id="lb_date" disable="true" editable="false" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Créateur: " />
-                              <TextField fx:id="lb_who" editable="false" />
+                              <TextField fx:id="lb_who" disable="true" editable="false" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Etat: " />
                               <ComboBox fx:id="lb_etat" prefWidth="150.0" />
