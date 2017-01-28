@@ -47,7 +47,7 @@
                               <ComboBox fx:id="lb_etat" prefWidth="150.0" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Priorité: " />
-                              <ComboBox fx:id="lb_priority" prefWidth="150.0" />
+                              <ComboBox fx:id="lb_priority" disable="true" prefWidth="150.0" />
                            </children>
                         </HBox>
                      </top>

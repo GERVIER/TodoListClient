@@ -250,14 +250,21 @@ public class ListeTachesController implements Initializable {
 					i++;
 			}
 			
-			if(box.getId().equals("vbox_lstTaskToDo"))
+			String nextView;
+			if(box.getId().equals("vbox_lstTaskToDo")){
 				TaskEditorHandler.setTacheToEdit(taskListToDo.get(i));
-			else
+				nextView = "/fxml/TacheEditionRea.fxml";
+			}
+				
+			else{
 				TaskEditorHandler.setTacheToEdit(taskList.get(i));
+				nextView = "/fxml/TacheEdition.fxml";
+			}
+				
 
 			stage = (Stage) b.getScene().getWindow();
 			try {
-				switchToView("/fxml/TacheEdition.fxml", stage);
+				switchToView(nextView, stage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
