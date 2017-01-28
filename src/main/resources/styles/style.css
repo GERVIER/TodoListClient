@@ -73,3 +73,10 @@
 	-fx-border-color: #c8c8c8;
 }
 
+.scroll-bar:vertical .thumb{
+	-fx-background-color: linear-gradient(#337ab7, #2e6da4);
+	-fx-border-color: #286090;
+	-fx-border-radius: 5px;
+	-fx-border-insets: 1px;
+}
+

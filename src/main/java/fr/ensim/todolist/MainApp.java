@@ -11,7 +11,8 @@ import javafx.stage.WindowEvent;
 
 
 public class MainApp extends Application {
-
+	
+	
     @Override
     public void start(Stage stage) throws Exception {
         networkHandler.init();
