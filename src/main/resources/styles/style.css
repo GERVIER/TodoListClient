@@ -37,6 +37,10 @@
     -fx-background-color: linear-gradient(#2e6da4, #286090);
 }
 
+.BTBleu::before{
+  -fx-background-color: linear-gradient(#d9534f, #d43f3a);
+}
+
 .BTrouge{
     -fx-background-color: linear-gradient(#d9534f, #d43f3a);
 }
@@ -63,11 +67,10 @@
 
 .titreTache{
     -fx-text-fill: #333333;
-
 }
 
 .titreTache .title{
-    -fx-background-radius: 0;
+  -fx-background-radius: 0;
 }
 
 /*

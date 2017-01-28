@@ -51,6 +51,8 @@ public class ListeTachesController implements Initializable {
 	@FXML
 	Button bt_actualise;
 	@FXML
+	Button bt_deco;
+	@FXML
 	Label lb_bonjour;
 
 	ArrayList<Tache> taskList = new ArrayList<Tache>();
@@ -67,6 +69,7 @@ public class ListeTachesController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_addTask.setOnAction(ChangeToCreateMode);
 		bt_actualise.setOnAction(Refresh);
+		
 		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
 			if (user == null) {
@@ -78,7 +81,6 @@ public class ListeTachesController implements Initializable {
 					try {
 						switchToView("/fxml/EcranConnexion.fxml", stage);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				} else {
@@ -110,7 +112,12 @@ public class ListeTachesController implements Initializable {
 		}
 
 		lb_bonjour.setText("Bienvenue " + user.nom + " " + user.prenom + "!" + "Votre id: " + user.userID);
-
+		try{
+			bt_deco.setOnAction(deconnexion);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -170,9 +177,7 @@ public class ListeTachesController implements Initializable {
 		// Finition et ajout de la tache
 		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(), p);
 		t.getStyleClass().add("titreTache");
-
 		boxToAdd.getChildren().add(t);
-
 	}
 
 	/**
@@ -288,6 +293,23 @@ public class ListeTachesController implements Initializable {
 		}
 	};
 
+	EventHandler<ActionEvent> deconnexion = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+			
+			try {
+				user = null;
+				switchToView("/fxml/EcranConnexion.fxml", stage);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+	
 	/**
 	 * Permet de changer de vue
 	 *
