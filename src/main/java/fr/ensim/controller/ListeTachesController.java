@@ -130,11 +130,9 @@ public class ListeTachesController implements Initializable {
 		HBox top_left = (HBox) top.getRight();
 		// Récupération du button edit
 		Button edit = (Button) top_left.getChildren().get(0);
-		if(type.equals("Crea"))
-			edit.setOnAction(ChangeToEditMode);
-		else{
-			edit.setOnAction(ChangeToEditMode2);
-		}
+
+		edit.setOnAction(ChangeToEditMode);
+
 
 		// Récupération du button suppr
 		Button suppr = (Button) top_left.getChildren().get(1);
@@ -183,7 +181,33 @@ public class ListeTachesController implements Initializable {
 	public EventHandler<ActionEvent> RemoveTask = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			System.err.println("REMOVING NOT IMPLEMENTED ! ");
+			
+
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+
+			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
+			VBox box = (VBox) tp.getParent();
+			
+			int i = 0;
+			for (Node n : box.getChildren()) {
+				if (tp.equals(n))
+					break;
+				else
+					i++;
+			}
+			
+			if(box.getId().equals("vbox_lstTaskToDo"))
+				networkHandler.sendTaskToServ(taskListToDo.get(i), "SUPPRESSION\n");
+			else
+				networkHandler.sendTaskToServ(taskList.get(i), "SUPPRESSION\n");
+			
+			try {
+				switchToView("/fxml/ListeTaches.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 
@@ -216,16 +240,20 @@ public class ListeTachesController implements Initializable {
 			Stage stage;
 			Button b = (Button) event.getSource();
 			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
-
+			VBox box = (VBox) tp.getParent();
+			
 			int i = 0;
-			for (Node n : vbox_lstTask.getChildren()) {
+			for (Node n : box.getChildren()) {
 				if (tp.equals(n))
 					break;
 				else
 					i++;
 			}
-
-			TaskEditorHandler.setTacheToEdit(taskList.get(i - 1));
+			
+			if(box.getId().equals("vbox_lstTaskToDo"))
+				TaskEditorHandler.setTacheToEdit(taskListToDo.get(i));
+			else
+				TaskEditorHandler.setTacheToEdit(taskList.get(i));
 
 			stage = (Stage) b.getScene().getWindow();
 			try {
@@ -236,41 +264,10 @@ public class ListeTachesController implements Initializable {
 		}
 	};
 
-	/**
-	 * 
-	 */
-	public EventHandler<ActionEvent> ChangeToEditMode2 = new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent event) {
-			Stage stage;
-			Button b = (Button) event.getSource();
-			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
-
-			System.err.println("Nombre de fils: " + vbox_lstTaskToDo.getChildren().size());
-			int i = 0;
-			for (Node n : vbox_lstTaskToDo.getChildren()) {
-				if (tp.equals(n))
-					break;
-				else
-					i++;
-			}
-
-			TaskEditorHandler.setTacheToEdit(taskListToDo.get(i));
-
-			stage = (Stage) b.getScene().getWindow();
-			try {
-				switchToView("/fxml/TacheEditionRea.fxml", stage);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	};
 
 	public EventHandler<ActionEvent> Refresh = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-
-			networkHandler.sendTaskToServ(null, "VALIDATION\n");
 
 			Stage stage;
 			Button b = (Button) event.getSource();

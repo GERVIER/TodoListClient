@@ -6,56 +6,58 @@
     -fx-text-fill: #333333;
 }
 
+/*
+ * Liste des boutons.
+ */
+
 .boutonBase{
     -fx-background-insets: 1;
 
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
+    -fx-border-width: 0px;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 45px;
 
     -fx-font-family: "Arial";
     -fx-text-fill: white;
 
-    -fx-padding: 5;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-padding: 8;
+
+}
+
+.boutonBase:hover{
+  -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 2, 0.0 , 0 , 1 );
 }
 
 .BTBleu{
-    -fx-border-color: #286090;
+
     -fx-background-color: linear-gradient(#337ab7, #2e6da4);
 }
 
 .BTBleu:hover{
-    -fx-border-color: #204d74;
     -fx-background-color: linear-gradient(#2e6da4, #286090);
 }
 
 .BTrouge{
-    -fx-border-color: #c9302c;
     -fx-background-color: linear-gradient(#d9534f, #d43f3a);
 }
 
 .BTrouge:hover{
-    -fx-border-color: #ac2925;
     -fx-background-color: linear-gradient(#d43f3a, #c9302c);
 }
 
 .BTvert{
-    -fx-border-color: #28904f;
     -fx-background-color: linear-gradient(#33b765, #2ea45b);
 }
 
 .BTvert:hover{
-    -fx-border-color: #207440;
     -fx-background-color: linear-gradient(#2ea45b, #28904f);
 }
 
 .BTjaune{
-    -fx-border-color: #908028;
     -fx-background-color: linear-gradient(#b7a333, #a4922e);
 }
 
 .BTjaune:hover{
-    -fx-border-color: #746720;
     -fx-background-color: linear-gradient(#a4922e, #908028);
 }
 
@@ -68,6 +70,9 @@
     -fx-background-radius: 0;
 }
 
+/*
+ * Panneau
+ */
 .panneauListeTache{
 	-fx-background-insets: 1;
 	-fx-border-color: #c8c8c8;
