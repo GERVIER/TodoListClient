@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" styleClass="fond" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EditTachesController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="1024.0" styleClass="fond" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensim.controller.EditTachesControllerRea">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
@@ -26,7 +26,7 @@
                <center>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <center>
-                        <TextArea fx:id="lb_desc" prefHeight="200.0" prefWidth="200.0" text="CECI EST UN TEXTE DE TEST&#10;VEUILLEZ DE NE PAS PANIQUER. KIMI EST GENTIL, IL NOUS VEUT DU BIEN.&#10;MANGER DES NOUILLES. C'EST BON LES NOUILLES.&#10;&#10;CHAUSSETTES ! CHAUCHETTES ! PUTAIN JE LE VEUT MON NIVEAU !" BorderPane.alignment="CENTER">
+                        <TextArea fx:id="lb_desc" editable="false" prefHeight="200.0" prefWidth="200.0" text="CECI EST UN TEXTE DE TEST&#10;VEUILLEZ DE NE PAS PANIQUER. KIMI EST GENTIL, IL NOUS VEUT DU BIEN.&#10;MANGER DES NOUILLES. C'EST BON LES NOUILLES.&#10;&#10;CHAUSSETTES ! CHAUCHETTES ! PUTAIN JE LE VEUT MON NIVEAU !" BorderPane.alignment="CENTER">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -38,16 +38,16 @@
                         <HBox alignment="CENTER" maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                            <children>
                               <Label styleClass="texte" text="Date: " />
-                              <DatePicker fx:id="lb_date" />
+                              <DatePicker fx:id="lb_date" editable="false" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Label styleClass="texte" text="Réalisateur: " />
-                              <TextField fx:id="lb_who" />
+                              <Label styleClass="texte" text="Créateur: " />
+                              <TextField fx:id="lb_who" editable="false" />
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <Label styleClass="texte" text="Etat: " />
+                              <ComboBox fx:id="lb_etat" prefWidth="150.0" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Priorité: " />
                               <ComboBox fx:id="lb_priority" prefWidth="150.0" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Label styleClass="texte" text="Etat" />
-                              <ComboBox fx:id="lb_etat" prefWidth="150.0" />
                            </children>
                         </HBox>
                      </top>
@@ -66,7 +66,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="lb_titre" alignment="CENTER" maxWidth="400.0" promptText="Nouveau Titre" />
+                        <TextField fx:id="lb_titre" alignment="CENTER" editable="false" maxWidth="400.0" promptText="Nouveau Titre" />
                      </children>
                   </GridPane>
                </center>

@@ -32,6 +32,9 @@
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
                         <Label styleClass="texte" text="Priorité: " textFill="#333333" />
                         <Label styleClass="texte" text="Label" textFill="#333333" />
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label styleClass="texte" text="Etat: " textFill="#333333" />
+                        <Label styleClass="texte" text="Label" textFill="#333333" />
                      </children>
                   </HBox>
                </top>

@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Tache;
 
-public class EditTachesController implements Initializable {
+public class EditTachesControllerRea implements Initializable {
 	private Tache taskToEdit;
 	public SimpleDateFormat formatterForEdit = new SimpleDateFormat("yyyy-MM-dd");
 

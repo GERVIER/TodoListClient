@@ -38,14 +38,23 @@ import model.User;
  */
 public class ListeTachesController implements Initializable {
 
-	private static User user = null;
+	private static ArrayList<User> usersList;
 	
+	private static User user = null;
+
 	@FXML
 	VBox vbox_lstTask;
 	@FXML
+	VBox vbox_lstTaskToDo;
+	@FXML
 	Button bt_addTask;
+	@FXML
+	Button bt_actualise;
+	@FXML
+	Label lb_bonjour;
 
 	ArrayList<Tache> taskList = new ArrayList<Tache>();
+	ArrayList<Tache> taskListToDo = new ArrayList<Tache>();
 
 	/**
 	 * Initializes the controller class.
@@ -57,16 +66,13 @@ public class ListeTachesController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_addTask.setOnAction(ChangeToCreateMode);
-
+		bt_actualise.setOnAction(Refresh);
 		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
 			if (user == null) {
-				networkHandler.test();
 				user = networkHandler.rvcUserFromServ();
-				
-				if(user == null){
-					taskList = user.lstTachesCrea;
-					System.out.println(taskList.size());
+
+				if (user == null) {
 					Stage stage;
 					stage = (Stage) bt_addTask.getScene().getWindow();
 					try {
@@ -75,28 +81,35 @@ public class ListeTachesController implements Initializable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}else{
+				} else {
 					taskList = user.lstTachesCrea;
+					taskListToDo = user.lstTachesRea;
 				}
-				
-				
+
 			} else {
 				networkHandler.sendMsgToServ("ACTUALISATION\n");
-				networkHandler.sendMsgToServ(""+user.userID+"\n");
-				
-				networkHandler.test();
+				networkHandler.sendMsgToServ("" + user.userID + "\n");
+
 				user = networkHandler.rvcUserFromServ();
 				taskList = user.lstTachesCrea;
+				taskListToDo = user.lstTachesRea;
 			}
 		}
 
 		try {
+
 			for (Tache t : taskList) {
-				AddTask(t);
+				AddTask(t, vbox_lstTask, "Crea");
+			}
+
+			for (Tache t : taskListToDo) {
+				AddTask(t, vbox_lstTaskToDo, "Rea");
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+
+		lb_bonjour.setText("Bienvenue " + user.nom + " " + user.prenom + "!" + "Votre id: " + user.userID);
 
 	}
 
@@ -107,7 +120,7 @@ public class ListeTachesController implements Initializable {
 	 *            : tache à ajouter a la liste des taches
 	 * @throws IOException
 	 */
-	public void AddTask(Tache task) throws IOException {
+	public void AddTask(Tache task, VBox boxToAdd, String type) throws IOException {
 		BorderPane p = FXMLLoader.load(getClass().getResource("/fxml/Tache.fxml"));
 		BorderPane top = (BorderPane) p.getTop();
 		BorderPane center = (BorderPane) p.getCenter();
@@ -117,12 +130,16 @@ public class ListeTachesController implements Initializable {
 		HBox top_left = (HBox) top.getRight();
 		// Récupération du button edit
 		Button edit = (Button) top_left.getChildren().get(0);
-		edit.setOnAction(ChangeToEditMode);
+		if(type.equals("Crea"))
+			edit.setOnAction(ChangeToEditMode);
+		else{
+			edit.setOnAction(ChangeToEditMode2);
+		}
 
 		// Récupération du button suppr
 		Button suppr = (Button) top_left.getChildren().get(1);
 		suppr.setOnAction(RemoveTask);
-
+		
 		// Récupération et application du titre:
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
 		titre.setText(task.titre);
@@ -131,23 +148,32 @@ public class ListeTachesController implements Initializable {
 		// creée et de la priorité
 		HBox center_center_top = (HBox) center_center.getTop();
 		Label date = (Label) center_center_top.getChildren().get(1);
+		Label text_rea = (Label) center_center_top.getChildren().get(3);
 		Label realisateur = (Label) center_center_top.getChildren().get(4);
 		Label priority = (Label) center_center_top.getChildren().get(7);
-
+		Label etat = (Label) center_center_top.getChildren().get(10);
 
 		date.setText(task.dateFin.toString());
-		realisateur.setText(task.idRealisateur);
+		if(type.equals("Crea")){
+			realisateur.setText(task.idRealisateur);
+		}
+		else{
+			text_rea.setText("Créateur: ");
+			realisateur.setText(task.idCreateur);
+		}
+		
 		priority.setText(task.priorite);
+		etat.setText(task.etat);
 
 		// Récupération et application du texte
 		TextArea desc = (TextArea) center_center.getCenter();
 		desc.setText(task.texte);
 
 		// Finition et ajout de la tache
-		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(),
-				p);
+		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(), p);
 		t.getStyleClass().add("titreTache");
-		vbox_lstTask.getChildren().add(t);
+
+		boxToAdd.getChildren().add(t);
 
 	}
 
@@ -204,6 +230,54 @@ public class ListeTachesController implements Initializable {
 			stage = (Stage) b.getScene().getWindow();
 			try {
 				switchToView("/fxml/TacheEdition.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	/**
+	 * 
+	 */
+	public EventHandler<ActionEvent> ChangeToEditMode2 = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			Stage stage;
+			Button b = (Button) event.getSource();
+			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
+
+			System.err.println("Nombre de fils: " + vbox_lstTaskToDo.getChildren().size());
+			int i = 0;
+			for (Node n : vbox_lstTaskToDo.getChildren()) {
+				if (tp.equals(n))
+					break;
+				else
+					i++;
+			}
+
+			TaskEditorHandler.setTacheToEdit(taskListToDo.get(i));
+
+			stage = (Stage) b.getScene().getWindow();
+			try {
+				switchToView("/fxml/TacheEditionRea.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	public EventHandler<ActionEvent> Refresh = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+
+			networkHandler.sendTaskToServ(null, "VALIDATION\n");
+
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+
+			try {
+				switchToView("/fxml/ListeTaches.fxml", stage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

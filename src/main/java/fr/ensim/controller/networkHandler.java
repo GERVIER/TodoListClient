@@ -39,22 +39,28 @@ public class networkHandler {
 
 			// Entrée
 			din = new BufferedReader(new InputStreamReader(aClient.getInputStream()));
-			ois = new ObjectInputStream(aClient.getInputStream());
 
 			// Sortie
 			dout = new DataOutputStream(aClient.getOutputStream());
-			oos = new ObjectOutputStream(aClient.getOutputStream());
+			
 		} catch (IOException ex) {
 			ex.getMessage();
 			serverOnline = false;
 		}
 	}
-	
-	public static void test(){
+
+	public static void prerareObjectRcv() {
 		try {
 			ois = new ObjectInputStream(aClient.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void prerareObjectSend() {
+		try {
+			oos = new ObjectOutputStream(aClient.getOutputStream());
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -115,12 +121,15 @@ public class networkHandler {
 		if (serverOnline) {
 			try {
 				sendMsgToServ(typeOP);
-				Tache test = new Tache(t.titre, t.tacheID, t.texte, t.priorite, t.etat, t.dateFin, t.dateCreation,
-						t.idCreateur, t.idRealisateur);
-
-				oos.writeObject(test);
+				Tache tache = null;
+				if (t != null) {
+					tache = new Tache(t.titre, t.tacheID, t.texte, t.priorite, t.etat, t.dateFin, t.dateCreation,
+							t.idCreateur, t.idRealisateur);
+				}
+				prerareObjectSend();
+				oos.writeObject(tache);
 				oos.flush();
-				System.out.println("\nTache envoyé: \n" + test);
+				System.out.println("\nTache envoyé: \n" + tache);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -131,6 +140,7 @@ public class networkHandler {
 		if (serverOnline) {
 			try {
 				User user = new User(u.userID, u.nom, u.prenom, u.mail, u.mdp);
+				prerareObjectSend();
 				oos.writeObject(user);
 				oos.flush();
 			} catch (IOException e) {
@@ -140,6 +150,7 @@ public class networkHandler {
 	}
 
 	public static User rvcUserFromServ() {
+		prerareObjectRcv();
 		User u = null;
 		if (serverOnline) {
 			try {

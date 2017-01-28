@@ -91,6 +91,12 @@
                   <String fx:value="BTrouge" />
                </styleClass></Button>
             <Label fx:id="lb_bonjour" layoutX="14.0" layoutY="12.0" styleClass="texte" text="Bienvenue Jean Claude !" textFill="#333333" AnchorPane.leftAnchor="20.0" />
+            <Button fx:id="bt_actualise" layoutX="880.0" layoutY="8.0" mnemonicParsing="false" text="Actualiser" AnchorPane.rightAnchor="130.0">
+               <styleClass>
+                  <String fx:value="boutonBase" />
+                  <String fx:value="BTjaune" />
+               </styleClass>
+            </Button>
          </children>
       </AnchorPane>
    </top>

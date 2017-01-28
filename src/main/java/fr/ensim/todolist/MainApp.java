@@ -22,9 +22,7 @@ public class MainApp extends Application {
                 networkHandler.sendMsgToServ("END");
             }
         });
-        
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/ListeTaches.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/EcranInscription.fxml"));
+
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/EcranConnexion.fxml"));
         Scene scene = new Scene(root);
         
