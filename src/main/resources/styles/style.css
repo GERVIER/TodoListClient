@@ -87,3 +87,19 @@
 	-fx-border-radius: 5px;
 	-fx-border-insets: 1px;
 }
+
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+
+    -fx-border-width: -1;
+}
+
+.text-area .content {
+    -fx-background-color: white;
+}
+
+.text-area:focused .content {
+    -fx-background-color:  white;
+}

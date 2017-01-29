@@ -9,7 +9,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,8 +42,8 @@ import model.User;
  */
 public class ListeTachesController implements Initializable {
 
-	private static ArrayList<User> usersList;
-	
+	private static Map<String, String> usersList;
+
 	private static User user = null;
 
 	@FXML
@@ -69,13 +73,15 @@ public class ListeTachesController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		bt_addTask.setOnAction(ChangeToCreateMode);
 		bt_actualise.setOnAction(Refresh);
+		bt_deco.setOnAction(deconnexion);
+
 		
 		if (networkHandler.isServerOnline()) {
 			// Récupération des taches par le réseaux
-			if (user == null) {
+			if (user == null) { //Si 1er co
 				user = networkHandler.rvcUserFromServ();
 
-				if (user == null) {
+				if (user == null) { //Si erreur => renvoie page de co
 					Stage stage;
 					stage = (Stage) bt_addTask.getScene().getWindow();
 					try {
@@ -88,7 +94,7 @@ public class ListeTachesController implements Initializable {
 					taskListToDo = user.lstTachesRea;
 				}
 
-			} else {
+			} else { //Si actualisation
 				networkHandler.sendMsgToServ("ACTUALISATION\n");
 				networkHandler.sendMsgToServ("" + user.userID + "\n");
 
@@ -96,10 +102,22 @@ public class ListeTachesController implements Initializable {
 				taskList = user.lstTachesCrea;
 				taskListToDo = user.lstTachesRea;
 			}
+
+			//Récup liste de tout le monde
+			usersList = networkHandler.rcvUserList();
+
+			Set<Entry<String, String>> setHm = usersList.entrySet();
+			Iterator<Entry<String, String>> iterator = setHm.iterator();
+
+			while (iterator.hasNext()) {
+				Entry<String, String> e = iterator.next();
+				System.out.println(e.getKey() + " : " + e.getValue());
+			}
+
 		}
 
+		//Affichage des taches
 		try {
-
 			for (Tache t : taskList) {
 				AddTask(t, vbox_lstTask, "Crea");
 			}
@@ -112,12 +130,7 @@ public class ListeTachesController implements Initializable {
 		}
 
 		lb_bonjour.setText("Bienvenue " + user.nom + " " + user.prenom + "!" + "Votre id: " + user.userID);
-		try{
-			bt_deco.setOnAction(deconnexion);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+
 	}
 
 	/**
@@ -140,11 +153,10 @@ public class ListeTachesController implements Initializable {
 
 		edit.setOnAction(ChangeToEditMode);
 
-
 		// Récupération du button suppr
 		Button suppr = (Button) top_left.getChildren().get(1);
 		suppr.setOnAction(RemoveTask);
-		
+
 		// Récupération et application du titre:
 		Label titre = (Label) ((GridPane) top.getCenter()).getChildren().get(0);
 		titre.setText(task.titre);
@@ -159,14 +171,13 @@ public class ListeTachesController implements Initializable {
 		Label etat = (Label) center_center_top.getChildren().get(10);
 
 		date.setText(task.dateFin.toString());
-		if(type.equals("Crea")){
-			realisateur.setText(task.idRealisateur);
-		}
-		else{
+		if (type.equals("Crea")) {
+			realisateur.setText(usersList.get(task.idRealisateur));
+		} else {
 			text_rea.setText("Créateur: ");
-			realisateur.setText(task.idCreateur);
+			realisateur.setText(usersList.get(task.idCreateur));
 		}
-		
+
 		priority.setText(task.priorite);
 		etat.setText(task.etat);
 
@@ -175,7 +186,7 @@ public class ListeTachesController implements Initializable {
 		desc.setText(task.texte);
 
 		// Finition et ajout de la tache
-		TitledPane t = new TitledPane(task.tacheID + " : " + task.titre + ". Pour le " + task.dateFin.toString(), p);
+		TitledPane t = new TitledPane(task.titre + ". Pour le " + task.dateFin.toString(), p);
 		t.getStyleClass().add("titreTache");
 		boxToAdd.getChildren().add(t);
 	}
@@ -186,7 +197,6 @@ public class ListeTachesController implements Initializable {
 	public EventHandler<ActionEvent> RemoveTask = new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			
 
 			Stage stage;
 			Button b = (Button) event.getSource();
@@ -194,7 +204,7 @@ public class ListeTachesController implements Initializable {
 
 			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
 			VBox box = (VBox) tp.getParent();
-			
+
 			int i = 0;
 			for (Node n : box.getChildren()) {
 				if (tp.equals(n))
@@ -202,12 +212,12 @@ public class ListeTachesController implements Initializable {
 				else
 					i++;
 			}
-			
-			if(box.getId().equals("vbox_lstTaskToDo"))
+
+			if (box.getId().equals("vbox_lstTaskToDo"))
 				networkHandler.sendTaskToServ(taskListToDo.get(i), "SUPPRESSION\n");
 			else
 				networkHandler.sendTaskToServ(taskList.get(i), "SUPPRESSION\n");
-			
+
 			try {
 				switchToView("/fxml/ListeTaches.fxml", stage);
 			} catch (IOException e) {
@@ -246,7 +256,7 @@ public class ListeTachesController implements Initializable {
 			Button b = (Button) event.getSource();
 			TitledPane tp = (TitledPane) b.getParent().getParent().getParent().getParent().getParent();
 			VBox box = (VBox) tp.getParent();
-			
+
 			int i = 0;
 			for (Node n : box.getChildren()) {
 				if (tp.equals(n))
@@ -254,18 +264,17 @@ public class ListeTachesController implements Initializable {
 				else
 					i++;
 			}
-			
+
 			String nextView;
-			if(box.getId().equals("vbox_lstTaskToDo")){
+			if (box.getId().equals("vbox_lstTaskToDo")) {
 				TaskEditorHandler.setTacheToEdit(taskListToDo.get(i));
 				nextView = "/fxml/TacheEditionRea.fxml";
 			}
-				
-			else{
+
+			else {
 				TaskEditorHandler.setTacheToEdit(taskList.get(i));
 				nextView = "/fxml/TacheEdition.fxml";
 			}
-				
 
 			stage = (Stage) b.getScene().getWindow();
 			try {
@@ -275,7 +284,6 @@ public class ListeTachesController implements Initializable {
 			}
 		}
 	};
-
 
 	public EventHandler<ActionEvent> Refresh = new EventHandler<ActionEvent>() {
 		@Override
@@ -290,6 +298,7 @@ public class ListeTachesController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 		}
 	};
 
@@ -299,17 +308,17 @@ public class ListeTachesController implements Initializable {
 			Stage stage;
 			Button b = (Button) event.getSource();
 			stage = (Stage) b.getScene().getWindow();
-			
+
 			try {
 				user = null;
 				switchToView("/fxml/EcranConnexion.fxml", stage);
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	};
-	
+
 	/**
 	 * Permet de changer de vue
 	 *

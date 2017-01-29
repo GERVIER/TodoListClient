@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Map;
 
 import model.Tache;
 import model.User;
@@ -49,7 +50,7 @@ public class networkHandler {
 		}
 	}
 
-	public static void prerareObjectRcv() {
+	private static void prerareObjectRcv() {
 		try {
 			ois = new ObjectInputStream(aClient.getInputStream());
 		} catch (IOException e) {
@@ -57,7 +58,7 @@ public class networkHandler {
 		}
 	}
 	
-	public static void prerareObjectSend() {
+	private static void prerareObjectSend() {
 		try {
 			oos = new ObjectOutputStream(aClient.getOutputStream());
 		} catch (IOException e) {
@@ -94,6 +95,7 @@ public class networkHandler {
 			System.out.println("Message envoyé au serveur: " + msg);
 			try {
 				dout.writeBytes(msg);
+				dout.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -161,5 +163,23 @@ public class networkHandler {
 			}
 		}
 		return u;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Map<String, String> rcvUserList(){
+		Map<String, String> userList = null;
+		
+		if(serverOnline){
+			sendMsgToServ("SENDLISTUSER\n");
+			
+			try {
+				prerareObjectRcv();
+				userList = (Map<String, String>) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return userList;
 	}
 }
