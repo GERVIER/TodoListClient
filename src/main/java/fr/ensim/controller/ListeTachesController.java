@@ -41,9 +41,8 @@ import model.User;
  * @author Rémy
  */
 public class ListeTachesController implements Initializable {
-
-	private static Map<String, String> usersList;
-
+	public static Map<String, String> usersList;
+	
 	private static User user = null;
 
 	@FXML
@@ -129,7 +128,7 @@ public class ListeTachesController implements Initializable {
 			ex.printStackTrace();
 		}
 
-		lb_bonjour.setText("Bienvenue " + user.nom + " " + user.prenom + "!" + "Votre id: " + user.userID);
+		lb_bonjour.setText("Bienvenue " + user.nom + " " + user.prenom + "!" + " Mail: " + usersList.get(user.userID));
 
 	}
 

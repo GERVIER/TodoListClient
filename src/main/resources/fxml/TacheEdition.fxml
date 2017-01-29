@@ -41,7 +41,7 @@
                               <DatePicker fx:id="lb_date" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Réalisateur: " />
-                              <TextField fx:id="lb_who" />
+                              <ComboBox fx:id="lb_who" prefWidth="150.0" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Label styleClass="texte" text="Priorité: " />
                               <ComboBox fx:id="lb_priority" prefWidth="150.0" />

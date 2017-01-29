@@ -3,7 +3,11 @@ package fr.ensim.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +25,8 @@ import javafx.stage.Stage;
 import model.Tache;
 
 public class EditTachesController implements Initializable {
+	private Map<String, String> usersList = ListeTachesController.usersList;
+	
 	private Tache taskToEdit;
 	public SimpleDateFormat formatterForEdit = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -35,7 +41,7 @@ public class EditTachesController implements Initializable {
 	@FXML
 	DatePicker lb_date;
 	@FXML
-	TextField lb_who;
+	ComboBox<String> lb_who;
 	@FXML
 	TextArea lb_desc;
 	@FXML
@@ -68,8 +74,21 @@ public class EditTachesController implements Initializable {
 		lb_date.setValue(taskToEdit.dateFin);
 		lb_desc.setText(taskToEdit.texte);
 		lb_titre.setText(taskToEdit.titre);
-		lb_who.setText(taskToEdit.idRealisateur);
+		
+		
+		lb_who.getItems().removeAll(lb_who.getItems());
+		Set<Entry<String, String>> setHm = usersList.entrySet();
+		Iterator<Entry<String, String>> iterator = setHm.iterator();
+
+		while (iterator.hasNext()) {
+			Entry<String, String> e = iterator.next();
+			lb_who.getItems().add(e.getValue());
+		}
+		
+		lb_who.getSelectionModel().select(usersList.get(taskToEdit.idRealisateur));
+		
 	}
+	
 
 	/**
 	 *
@@ -99,9 +118,21 @@ public class EditTachesController implements Initializable {
 		@Override
 		public void handle(ActionEvent event) {
 
+			String mailRea = lb_who.getValue();
+			String idRea = taskToEdit.idCreateur;
+			
+			Set<Entry<String, String>> setHm = usersList.entrySet();
+			Iterator<Entry<String, String>> iterator = setHm.iterator();
+
+			while (iterator.hasNext()) {
+				Entry<String, String> e = iterator.next();
+				if(e.getValue().equals(mailRea))
+					idRea = e.getKey();
+			}
+			
 			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(),
 					lb_priority.getValue(), lb_etat.getValue(), lb_date.getValue(), taskToEdit.dateCreation,
-					taskToEdit.idCreateur, lb_who.getText());
+					taskToEdit.idCreateur, idRea);
 
 			networkHandler.sendTaskToServ(taskEdited, "VALIDATION\n");
 			

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 public class User implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String userID;
 	public String nom;
 	public String prenom;
