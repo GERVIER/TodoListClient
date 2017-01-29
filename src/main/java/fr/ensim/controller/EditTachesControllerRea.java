@@ -3,6 +3,7 @@ package fr.ensim.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import model.Tache;
 
 public class EditTachesControllerRea implements Initializable {
 	private Tache taskToEdit;
+	private Map<String, String> usersList = ListeTachesController.usersList;
 	public SimpleDateFormat formatterForEdit = new SimpleDateFormat("yyyy-MM-dd");
 
 	@FXML
@@ -68,7 +70,7 @@ public class EditTachesControllerRea implements Initializable {
 		lb_date.setValue(taskToEdit.dateFin);
 		lb_desc.setText(taskToEdit.texte);
 		lb_titre.setText(taskToEdit.titre);
-		lb_who.setText(taskToEdit.idRealisateur);
+		lb_who.setText(usersList.get(taskToEdit.idRealisateur));
 	}
 
 	/**
@@ -99,9 +101,9 @@ public class EditTachesControllerRea implements Initializable {
 		@Override
 		public void handle(ActionEvent event) {
 
-			Tache taskEdited = new Tache(lb_titre.getText(), taskToEdit.tacheID, lb_desc.getText(),
-					lb_priority.getValue(), lb_etat.getValue(), lb_date.getValue(), taskToEdit.dateCreation,
-					taskToEdit.idCreateur, lb_who.getText());
+			Tache taskEdited = new Tache(taskToEdit.titre, taskToEdit.tacheID, taskToEdit.texte,
+					taskToEdit.priorite, lb_etat.getValue(), taskToEdit.dateFin, taskToEdit.dateCreation,
+					taskToEdit.idCreateur, taskToEdit.idRealisateur);
 
 			networkHandler.sendTaskToServ(taskEdited, "VALIDATION\n");
 			
