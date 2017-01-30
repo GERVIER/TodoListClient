@@ -29,6 +29,8 @@ public class EcranConnexionController implements Initializable {
 	@FXML
 	private TextField txt_mail;
 
+	private static boolean initOk = false;
+
 	/**
 	 * @param url
 	 * @param rb
@@ -44,13 +46,16 @@ public class EcranConnexionController implements Initializable {
 		if (!networkHandler.isServerOnline()) {
 			lb_ServerState.setVisible(true);
 		} else {
-			networkHandler.sendMsgToServ("INIT\n");
+			if (!initOk) {
+				networkHandler.sendMsgToServ("INIT\n");
 
-			String msg = networkHandler.rcvMsgFromServ();
-			System.out.println("Réponse: " + msg);
+				String msg = networkHandler.rcvMsgFromServ();
+				System.out.println("Réponse: " + msg);
+				initOk = true;
+			}
 		}
 	}
-
+	
 	/**
 	 * Switch sur la vue d'inscription.
 	 */
@@ -88,10 +93,7 @@ public class EcranConnexionController implements Initializable {
 				stage = (Stage) b.getScene().getWindow();
 
 				switchToView("/fxml/ListeTaches.fxml", stage);
-
-				// lb_ServerState.setVisible(true);
-				// lb_ServerState.setText("Login ou mot de passe incorrect");
-
+				
 			} catch (IOException ex) {
 				ex.getMessage();
 			} catch (InterruptedException e) {

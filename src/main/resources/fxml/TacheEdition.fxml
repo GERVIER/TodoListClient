@@ -97,6 +97,9 @@
                <image>
                   <Image url="@../img/ic_edit.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
             </ImageView>
             <Label styleClass="texte" text="Edition" underline="true">
                <font>
@@ -104,6 +107,9 @@
                </font>
             </Label>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </HBox>
    </top>
 </BorderPane>

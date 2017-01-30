@@ -65,6 +65,15 @@ public class EcranInscriptionController implements Initializable {
         	User u = new User("", txt_nickName.getText(), txt_name.getText(), txt_Mail.getText(),  txt_pass.getText());
             networkHandler.sendMsgToServ("INSCRIPTION\n");
             networkHandler.sendUserToServ(u);
+            
+			Stage stage;
+			Button b = (Button) event.getSource();
+			stage = (Stage) b.getScene().getWindow();
+            try {
+				switchToView("/fxml/ListeTaches.fxml", stage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
     };
 

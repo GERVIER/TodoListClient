@@ -84,6 +84,7 @@ public class ListeTachesController implements Initializable {
 					Stage stage;
 					stage = (Stage) bt_addTask.getScene().getWindow();
 					try {
+						
 						switchToView("/fxml/EcranConnexion.fxml", stage);
 					} catch (IOException e) {
 						e.printStackTrace();
