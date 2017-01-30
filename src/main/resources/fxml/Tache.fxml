@@ -24,16 +24,28 @@
                <top>
                   <HBox alignment="CENTER" maxHeight="30.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label styleClass="texte" text="Date: " textFill="#333333" />
+                        <Label styleClass="texte" text="Date: " textFill="#333333">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label styleClass="texte" text="Label" textFill="#333333" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label styleClass="texte" text="Réalisateur: " textFill="#333333" />
+                        <Label styleClass="texte" text="Réalisateur: " textFill="#333333">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label styleClass="texte" text="Label" textFill="#333333" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label styleClass="texte" text="Priorité: " textFill="#333333" />
+                        <Label styleClass="texte" text="Priorité: " textFill="#333333">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label styleClass="texte" text="Label" textFill="#333333" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Label styleClass="texte" text="Etat: " textFill="#333333" />
+                        <Label styleClass="texte" text="Etat: " textFill="#333333">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                         <Label styleClass="texte" text="Label" textFill="#333333" />
                      </children>
                   </HBox>
