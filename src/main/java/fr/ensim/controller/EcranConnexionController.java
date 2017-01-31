@@ -86,7 +86,7 @@ public class EcranConnexionController implements Initializable {
 				Thread.sleep(3);
 				networkHandler.sendMsgToServ(txt_mail.getText() + "\n");
 				Thread.sleep(3);
-				networkHandler.sendMsgToServ("123" + "\n");
+				networkHandler.sendMsgToServ(txt_mdp.getText() + "\n");
 
 				Stage stage;
 				Button b = (Button) event.getSource();
