@@ -211,11 +211,20 @@ public class ListeTachesController implements Initializable {
 					i++;
 			}
 
-			if (box.getId().equals("vbox_lstTaskToDo"))
-				networkHandler.sendTaskToServ(taskListToDo.get(i), "SUPPRESSION\n");
+			
+			Tache taskToDelete;
+			boolean canDelete = true;
+			
+			if (box.getId().equals("vbox_lstTaskToDo")){
+				taskToDelete = taskListToDo.get(i);
+				if(!taskToDelete.etat.equals("Termine"))
+					canDelete = false;
+			}
 			else
-				networkHandler.sendTaskToServ(taskList.get(i), "SUPPRESSION\n");
+				taskToDelete = taskList.get(i);
 
+			if(canDelete)
+				networkHandler.sendTaskToServ(taskToDelete, "SUPPRESSION\n");
 			try {
 				switchToView("/fxml/ListeTaches.fxml", stage);
 			} catch (IOException e) {

@@ -71,6 +71,8 @@ public class EditTachesControllerRea implements Initializable {
 		lb_desc.setText(taskToEdit.texte);
 		lb_titre.setText(taskToEdit.titre);
 		lb_who.setText(usersList.get(taskToEdit.idRealisateur));
+		
+		
 	}
 
 	/**
